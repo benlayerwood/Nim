@@ -5,6 +5,8 @@ class Nim(val rows: IntArray = intArrayOf(1,3,5,7),
           val turn: Int = 1,
           val moves: List<Move> = listOf()): NimGame {
 
+    var bestMove: Move = Move(0,0)
+
     override fun play(vararg moves: Move): Nim {
         var nim = this
         for(m in moves) nim = nim.play(m)
@@ -65,41 +67,46 @@ class Nim(val rows: IntArray = intArrayOf(1,3,5,7),
         return "$s\n____________"
     }
 
-    inner class MiniMax(val player: Int = 1) {
 
-        fun max(nim: Nim): Pair<Int, Move> {
-            var bestMove: Move = Move(0, 0)
-            if (nim.isGameOver()){
-                    0 to Move(0, 0)
-                }
-
-            var maxValue = Int.MIN_VALUE
-            var possibleMoves = nim.possibleMoves()
-
-            for (move in possibleMoves) {
-                val value = min(nim.play(move))
-                if (value > maxValue){
-                    maxValue = value
-                    bestMove = move
-                }
-            }
-            return 0 to bestMove
-        }
-
-        fun min(nim: Nim): Int {
-            if (nim.isGameOver()){
-                return 1
-            }
-
-            var minValue = Int.MAX_VALUE
-            var possibleMoves = nim.possibleMoves()
-
-            for (move in possibleMoves) {
-                val value = max(nim.play(move)).first
-                if (value < minValue)
-                    minValue = value
-            }
-            return 0
-        }
+    fun minimax(): Move {
+        max()
+        return bestMove
     }
+
+    fun max(): Int {
+        assert(turn == 1)
+        if (isGameOver()) return -1
+        var maxVal = Int.MIN_VALUE
+        val possibleMoves = possibleMoves()
+
+        for (move in possibleMoves){
+            val nextNim = play(move)
+            var value = nextNim.min()
+            //if (move in listOf<Move>(Move(0,2),Move(1,2)
+            //        )) println("$move, value: $value")
+            if (value > maxVal){
+                maxVal = value
+                bestMove = move
+            }
+        }
+
+        return maxVal
+    }
+
+    fun min(): Int{
+        assert(turn == -1)
+        if (isGameOver()) return 1
+        var minVal = Int.MAX_VALUE
+        val possibleMoves = possibleMoves()
+
+        for (move in possibleMoves){
+            val nextNim = play(move)
+            var value = nextNim.max()
+
+            if (value < minVal) minVal = value
+        }
+        return minVal
+    }
+
+
 }
