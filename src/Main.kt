@@ -1,11 +1,25 @@
 fun main() {
-    //val ui = UserInterface()
-    //ui.play()
-
-    var nim = Nim(intArrayOf(1,3))
-
-    println(nim.possibleMoves())
-
-    println(nim.minimax())
-    println(nim.bestMove)
+    val ui = UserInterface()
+    ui.start()
 }
+
+/*
+fun mainTest(){
+    var nim = Nim(intArrayOf(1,2))
+    Nim.sethashArraySize(nim.rows)
+    var moves: List<Move> = listOf()
+
+    for (i  in 0..10){
+        var move = nim.possibleMoves().random()
+        moves = moves.plus(move)
+
+        nim = nim.play(move)
+        if (nim.isGameOver()) break
+        Nim.saveInHashArray(nim.rows,nim.turn,Random.nextInt(0,1))
+    }
+
+    val a = Nim.hashArray
+    println()
+}
+
+ */

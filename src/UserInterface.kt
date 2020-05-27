@@ -1,14 +1,34 @@
 import kotlin.random.Random
 
 class UserInterface() {
-    var nimGame: NimGame = chooseOpponent()
+    val testMode: Boolean = askIfStartTestmode()
+    var nimGame: NimGame = if (testMode) Nim() else chooseOpponent()
+
+    fun start(){
+        if (testMode){
+            TestMode().playGames()
+            return
+        }else{
+            play()
+        }
+    }
+
+    private fun askIfStartTestmode(): Boolean{
+        "Welcome to the Game!\nSelect the Game Mode".printWithBoarders()
+        println("1) Start Testmode [t]")
+        println("2) Start Playing [p]")
+        print("[t|p]: ")
+        return readLine().orEmpty().toLowerCase() == "t"
+    }
 
     fun chooseOpponent(): NimGame {
-        println("Which Nim-Version do you want to play against?")
-        print("Nim (0) or NimPerfect (1): [0|1] ")
+        "Select Opponent".printWithBoarders()
+        println("1) Play against Nim [n]")
+        println("2) Play against NimPerfect [np]")
+        println("[n|np]: ")
         val nimWasChosen = readLine() == "0"
         println("You have chosen ${if (nimWasChosen) "Nim" else "NimPerfect"}")
-        return if (nimWasChosen) Nim_alt(rows = chooseRows()) else NimPerfect(rows = chooseRows())
+        return if (nimWasChosen) Nim(rows = chooseRows()) else NimPerfect(rows = chooseRows())
     }
     fun chooseRows(): IntArray{
         println("\nPlease choose your preferred Row numbers")
@@ -23,7 +43,7 @@ class UserInterface() {
         if (s == "r"){
             val r = Random
             val rowSize = r.nextInt(2,5)
-            for (i in 0..rowSize) list.add(r.nextInt(1,7))
+            for (i in 0..rowSize) list.add(r.nextInt(2,7))
             list.sort()
             return list.toIntArray()
         }
@@ -39,15 +59,7 @@ class UserInterface() {
         showBoard()
         makeMove()
         showBoard()
-        if (nimGame.isGameOver()){
-            println("The Game is over!")
-            return
-        }
-        when (askHowToContinue()){
-            "u" -> nimGame = nimGame.undoMove()
-            "q" -> return
-            "e" -> return
-        }
+        if (askHowToContinue()) return
         play()
     }
 
@@ -77,11 +89,32 @@ class UserInterface() {
         }
     }
 
-    fun askHowToContinue(): String{
-        println("Continue: ENTER")
+    fun askHowToContinue(gameOver: Boolean = nimGame.isGameOver()): Boolean {
+        if (gameOver) println("The Game is over!\nStart new Game: ENTER")
+            else println("Continue: ENTER")
         println("End Game: \"q\" or \"e\"")
         println("Undo last move: \"u\"")
         print("[ENTER|q|u]: ")
-        return readLine().orEmpty().toLowerCase()
+        val s = readLine().orEmpty().toLowerCase()
+        if (gameOver && s ==""){
+            UserInterface()
+            return true
+        }
+        return when (s){
+            "u" -> {
+                nimGame = nimGame.undoMove()
+                false
+            }
+            "q" -> true
+            "e" -> true
+            else -> false
+        }
+    }
+
+    fun String.printWithBoarders(){
+        val len = this.length
+        println("-".repeat(len))
+        println(this)
+        println("-".repeat(len))
     }
 }
