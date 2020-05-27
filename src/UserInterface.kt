@@ -6,9 +6,9 @@ class UserInterface() {
     fun chooseOpponent(): NimGame {
         println("Which Nim-Version do you want to play against?")
         print("Nim (0) or NimPerfect (1): [0|1] ")
-        val NimWasChosen = readLine() == "0"
-        println("You have chosen ${if (NimWasChosen) "Nim" else "NimPerfect"}")
-        return if (NimWasChosen) Nim(rows = chooseRows()) else NimPerfect(rows = chooseRows())
+        val nimWasChosen = readLine() == "0"
+        println("You have chosen ${if (nimWasChosen) "Nim" else "NimPerfect"}")
+        return if (nimWasChosen) Nim_alt(rows = chooseRows()) else NimPerfect(rows = chooseRows())
     }
     fun chooseRows(): IntArray{
         println("\nPlease choose your preferred Row numbers")
@@ -81,7 +81,7 @@ class UserInterface() {
         println("Continue: ENTER")
         println("End Game: \"q\" or \"e\"")
         println("Undo last move: \"u\"")
-        print("[c|q|u]: ")
-        return readLine().orEmpty()
+        print("[ENTER|q|u]: ")
+        return readLine().orEmpty().toLowerCase()
     }
 }
