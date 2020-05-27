@@ -1,11 +1,15 @@
 import kotlin.math.max
+import kotlin.math.pow
 import kotlin.random.Random
 
 class Nim(val rows: IntArray = intArrayOf(1,3,5,7),
           val turn: Int = 1,
-          val moves: List<Move> = listOf()): NimGame {
-
-    var bestMove: Move = Move(0,0)
+          val moves: List<Move> = listOf()
+): NimGame {
+    private var bestMove: Move = Move(0,0)
+    var hashArray: Array<Int?> =
+            arrayOfNulls<Int>(2.0.pow(rows.size).toInt())
+    var hashIndex: Int = 0
 
     override fun play(vararg moves: Move): Nim {
         var nim = this
@@ -24,15 +28,8 @@ class Nim(val rows: IntArray = intArrayOf(1,3,5,7),
     }
 
     override fun bestMove(): Move {
-        val random = Random
-        assert(!isGameOver())
-        var row: Int
-        do{
-            row = random.nextInt(rows.size)
-        }while (rows[row] == 0)
-        val number = random.nextInt(rows[row]) + 1
-        return Move(row, number)
-
+        max()
+        return bestMove
     }
 
     override fun isGameOver(): Boolean {
@@ -67,13 +64,7 @@ class Nim(val rows: IntArray = intArrayOf(1,3,5,7),
         return "$s\n____________"
     }
 
-
-    fun minimax(): Move {
-        max()
-        return bestMove
-    }
-
-    fun max(): Int {
+    fun max(depth: Int = 0): Int {
         assert(turn == 1)
         if (isGameOver()) return -1
         var maxVal = Int.MIN_VALUE
@@ -81,19 +72,26 @@ class Nim(val rows: IntArray = intArrayOf(1,3,5,7),
 
         for (move in possibleMoves){
             val nextNim = play(move)
-            var value = nextNim.min()
-            //if (move in listOf<Move>(Move(0,2),Move(1,2)
-            //        )) println("$move, value: $value")
-            if (value > maxVal){
+            var value = 0
+            var savedResult = getHashArrayResult(nextNim.rows)
+
+            if (savedResult == 0) {
+                value = nextNim.min(depth+1)
+                saveInHashArray(value)
+            }else {
+                println("used saved Result")
+                 value = savedResult
+            }
+
+            if (value >= maxVal) {
                 maxVal = value
                 bestMove = move
             }
         }
-
         return maxVal
     }
 
-    fun min(): Int{
+    fun min(depth: Int): Int{
         assert(turn == -1)
         if (isGameOver()) return 1
         var minVal = Int.MAX_VALUE
@@ -101,12 +99,41 @@ class Nim(val rows: IntArray = intArrayOf(1,3,5,7),
 
         for (move in possibleMoves){
             val nextNim = play(move)
-            var value = nextNim.max()
-
-            if (value < minVal) minVal = value
+            var value = nextNim.max(depth+1)
+            if (value <= minVal) minVal = value
         }
         return minVal
     }
 
+    fun IntArray.toHashCode(): Int{
+        var hashCode = 0
+        for (row in rows){
+            hashCode = (hashCode shl 3) or row
+        }
+        return hashCode
+    }
+    fun saveInHashArray(res: Int){
+        assert(res == 1 || res == -1)
+        var sortedRows = rows.sortedArray()
+        var hashCode = sortedRows.toHashCode()
+        //add result do HashArray
+        val lastBit = if (res == 1) 1 else 0
+        hashCode = (hashCode shl 1) or lastBit
+
+        hashArray[hashIndex] = hashCode
+        hashIndex++
+    }
+    //If function returns 0, no Result was found
+    fun getHashArrayResult(rows: IntArray): Int{
+        var sortedRows = rows.sortedArray()
+        val hashCode = sortedRows.toHashCode()
+        for (hashItem in hashArray){
+            if (hashCode == (hashItem?.shr(1))) {
+                val lastBit = hashItem and 1
+                return if (lastBit == 0) -1 else 1
+            }
+        }
+        return 0
+    }
 
 }
