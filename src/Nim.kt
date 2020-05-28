@@ -13,51 +13,6 @@ class Nim(
     init {
         this.minimax()
     }
-    /*
-    companion object{
-        var hashArray: Array<Int> = emptyArray()
-        var hashIndex: Int = 0
-        fun sethashArraySize(rows: IntArray){
-            var result = 0.0
-            for (row in rows) result += row.toDouble().pow(2)
-            hashArray = Array(result.toInt() * 2){0}
-        }
-        fun saveInHashArray(rows: IntArray,turn: Int, res: Int){
-            if (getHashArrayResult(rows, turn) == 0) {
-                val sortedRows = rows.filterNot { i -> i == 0 }.sorted().toIntArray()
-                //last 2 Bits represent turn and result
-                val hashCode = (((toHashCode(sortedRows) shl 2)
-                        or if (turn == 1) 2 else 0) or max(res, 0))
-                hashArray[hashIndex] = hashCode
-                hashIndex++
-            }
-        }
-        fun getHashArrayResult(rows: IntArray, turn: Int): Int{
-            //Sort Rows
-            val sortedRows = rows.sortedArray()
-            //Generate HashCode
-            val hashCode = ((toHashCode(sortedRows) shl 1)
-                or if (turn == 1) 1 else 0 )
-            //Compare with Code in hashArray
-            for (hashItem in hashArray){
-                if (hashCode == (hashItem.shr(1))){
-                    val lastBit = hashItem and 1
-                    return if (lastBit == 0) -1 else 1
-                }
-            }
-            return 0
-        }
-
-        private fun toHashCode(rows: IntArray): Int{
-            var hashCode = 0
-            for (row in rows){
-                hashCode = (hashCode shl 3) or row
-            }
-            return hashCode
-        }
-    }
-*/
-
     private var bestMove = Move(0,0)
 
     override fun play(vararg moves: Move): Nim {
