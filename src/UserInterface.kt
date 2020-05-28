@@ -70,14 +70,21 @@ class UserInterface {
             println("Type in your Move in the Format: row.number")
             println("For example: 2.1")
             print("Move (row.number): ")
-            val s = readLine()
-            if (s != null && s.length == 3){
+            val s = readLine().orEmpty()
+
+            if (s.length == 3 && s[0].isDigit() && s[2].isDigit()
+                    && s[1] == '.'){
                 val row = s[0].toString().toInt() - 1
                 val number = s[2].toString().toInt()
                 val move = Move(row, number)
-                nimGame = nimGame.play(move)
+                try {
+                    nimGame = nimGame.play(move)
+                }catch (a: ArrayIndexOutOfBoundsException){
+                    "ERROR: Your input was incorrect! Try again!".printWithBoarders()
+                    makeMove()
+                }
             }else{
-                println("ERROR: Your input was incorrect! Try again!")
+                "ERROR: Your input was incorrect! Try again!".printWithBoarders()
                 makeMove()
             }
 

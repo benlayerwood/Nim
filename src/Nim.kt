@@ -7,7 +7,7 @@ class Nim(
         private val turn: Int = 1,
         private val moves: List<Move> = listOf(),
         private val Cache: HashMap<Nim, Int> = hashMapOf(),
-        private val shiftLeft: Int = ceil(log2((rows.max()?:0).toFloat())).toInt()
+        private val shiftLeft: Int = ceil(log2(((rows.max()?:0).toDouble()))).toInt()
 ): NimGame
 {
     init {
@@ -103,5 +103,4 @@ class Nim(
             return turn * Int.MAX_VALUE
         return turn * rows.sorted().fold(0) {acc, i -> (acc shl shiftLeft) + i }
     }
-
 }
