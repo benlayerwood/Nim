@@ -1,4 +1,3 @@
 fun main() {
-    val ui = UserInterface()
-    ui.start()
+    UserInterface().start()
 }

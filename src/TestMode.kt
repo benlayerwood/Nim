@@ -1,8 +1,7 @@
 import kotlin.random.Random
 
-class TestMode(var nimPerfect: NimPerfect = NimPerfect(),
-               var nim: Nim = Nim()) {
-    fun randomRows(): IntArray{
+class TestMode {
+    private fun randomRows(): IntArray{
         val list = arrayListOf<Int>()
         val r = Random
         val rowSize = r.nextInt(2,5)
@@ -14,30 +13,34 @@ class TestMode(var nimPerfect: NimPerfect = NimPerfect(),
     fun playGames(n: Int = 1){
         if (n > 40) return
                 println("\nGame $n:")
-        var nimsTurn = Random.nextBoolean()
-                println("${if (nimsTurn) "Nim" else "NimPerfect"} starts!")
-        val randRows = randomRows() //intArrayOf(2,4,4,6)
+        var nimTurn = Random.nextBoolean()
+                println("${if (nimTurn) "Nim" else "NimPerfect"} starts!")
+        val randRows = randomRows()
             print("Rows: ")
             randRows.forEach { row -> print("$row ") }
             println()
         var nimBoard = Nim(randRows)
 
-        val nimShouldWin = isWinning(nimBoard.rows) && nimsTurn
+        val nimShouldWin = isWinning(nimBoard.rows) && nimTurn
             if (nimShouldWin) print("Nim") else print("NimPerfect")
             println(" should win!")
 
         while (true){
-            val move = if (nimsTurn) nimBoard.bestMove()
+            val move = if (nimTurn) nimBoard.bestMove()
                 else NimPerfect(rows = nimBoard.rows).bestMove()
 
             nimBoard = nimBoard.play(move)
             if (nimBoard.isGameOver()){
-                if (nimsTurn) println("Nim has wone")
-                if (!nimsTurn) println("NimPerfect has wone")
+                if (nimTurn) println("Nim has won!")
+                if (!nimTurn) println("NimPerfect has won!")
                 break
             }
-            nimsTurn = !nimsTurn
+            nimTurn = nimTurn.not()
         }
         playGames(n + 1)
+    }
+
+    private fun isWinning(numbers: IntArray): Boolean {
+        return numbers.fold(0){ i, j -> i xor j} != 0
     }
 }

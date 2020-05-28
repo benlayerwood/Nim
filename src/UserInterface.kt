@@ -1,13 +1,14 @@
 import kotlin.random.Random
 
-class UserInterface() {
-    val testMode: Boolean = askIfStartTestmode()
-    var nimGame: NimGame = if (testMode) Nim() else chooseOpponent()
+class UserInterface {
+    private val testMode: Boolean = askIfStartTestmode()
+    private var nimGame: NimGame = if (testMode) Nim() else chooseOpponent()
 
     fun start(){
         if (testMode){
             TestMode().playGames()
-            return
+            if (askToEndGame()) return
+            UserInterface().start()
         }else{
             play()
         }
@@ -15,27 +16,25 @@ class UserInterface() {
 
     private fun askIfStartTestmode(): Boolean{
         "Welcome to the Game!\nSelect the Game Mode".printWithBoarders()
-        println("1) Start Testmode [t]")
+        println("1) Start Test mode [t]")
         println("2) Start Playing [p]")
         print("[t|p]: ")
         return readLine().orEmpty().toLowerCase() == "t"
     }
 
-    fun chooseOpponent(): NimGame {
+    private fun chooseOpponent(): NimGame {
         "Select Opponent".printWithBoarders()
         println("1) Play against Nim [n]")
         println("2) Play against NimPerfect [np]")
         print("[n|np]: ")
         val nimWasChosen = readLine() == "n"
-        println("You have chosen ${if (nimWasChosen) "Nim" else "NimPerfect"}")
+        "You have chosen ${if (nimWasChosen) "Nim" else "NimPerfect"}".printWithBoarders()
         return if (nimWasChosen) Nim(rows = chooseRows()) else NimPerfect(rows = chooseRows())
     }
-    fun chooseRows(): IntArray{
-        println("\nPlease choose your preferred Row numbers")
-        println("in the format number1-number2-number3...")
-        println("for example: 1-3-5-7")
+    private fun chooseRows(): IntArray{
+        println("Select preferred numbers in format \"number1-number2-...\" (example: 1-3-5-7)")
         println("Type in \"r\" to randomly generate the Rows")
-        print("Row numbers: ")
+        print("[Row numbers|r]: ")
         var s = readLine()
         val list = arrayListOf<Int>()
         if (s==null) s = ""
@@ -51,11 +50,11 @@ class UserInterface() {
         s.forEach { c -> list.add(Integer.parseInt(c.toString())) }
         return if (list.isEmpty()) intArrayOf(1, 3, 5, 7) else list.toIntArray()
     }
-    fun showBoard(){
-        println(nimGame.toString() + "\n")
+    private fun showBoard(){
+        nimGame.toString().printWithBoarders()
     }
 
-    fun play(){
+    private fun play(){
         showBoard()
         makeMove()
         showBoard()
@@ -63,8 +62,8 @@ class UserInterface() {
         play()
     }
 
-    fun makeMove(){
-        println("Make move manually (0) or let the computer make the move(1)")
+    private fun makeMove(){
+        println("\nMake move manually (0) or let the computer make the move(1)")
         print("[0|1]: ")
         val isManually = readLine() == "0"
         if (isManually){
@@ -89,15 +88,15 @@ class UserInterface() {
         }
     }
 
-    fun askHowToContinue(gameOver: Boolean = nimGame.isGameOver()): Boolean {
-        if (gameOver) println("The Game is over!\nStart new Game: ENTER")
-            else println("Continue: ENTER")
+    private fun askHowToContinue(gameOver: Boolean = nimGame.isGameOver()): Boolean {
+        if (gameOver) println("\nThe Game is over!\nReturn to main menu: ENTER")
+            else println("\nContinue: ENTER")
         println("End Game: \"q\" or \"e\"")
         println("Undo last move: \"u\"")
         print("[ENTER|q|u]: ")
         val s = readLine().orEmpty().toLowerCase()
         if (gameOver && s ==""){
-            UserInterface().play()
+            UserInterface().start()
             return true
         }
         return when (s){
@@ -111,8 +110,21 @@ class UserInterface() {
         }
     }
 
-    fun String.printWithBoarders(){
+    private fun askToEndGame(): Boolean{
+        println("\nTest Completed!")
+        println("Go back to main menu: ENTER")
+        println("End Game: \"q\" or \"e\"")
+        print("[ENTER|q|e]: ")
+        return when (readLine().orEmpty().toLowerCase()){
+            "q" -> true
+            "e" -> true
+            else -> false
+        }
+    }
+
+    private fun String.printWithBoarders(){
         val len = this.length
+        println()
         println("-".repeat(len))
         println(this)
         println("-".repeat(len))

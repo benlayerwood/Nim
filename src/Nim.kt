@@ -4,9 +4,9 @@ import kotlin.math.max
 
 class Nim(
         val rows: IntArray = intArrayOf(1,3,5,7),
-        val turn: Int = 1,
-        val moves: List<Move> = listOf(),
-        val Cache: HashMap<Nim, Int> = hashMapOf(),
+        private val turn: Int = 1,
+        private val moves: List<Move> = listOf(),
+        private val Cache: HashMap<Nim, Int> = hashMapOf(),
         private val shiftLeft: Int = ceil(log2((rows.max()?:0).toFloat())).toInt()
 ): NimGame
 {
@@ -35,7 +35,7 @@ class Nim(
     override fun isGameOver(): Boolean {
         return rows.all { x -> x == 0 }
     }
-    fun possibleMoves(): List<Move>{
+    private fun possibleMoves(): List<Move>{
         var res = listOf<Move>()
         for (row in rows.indices){
             if (rows[row] == 0) continue
@@ -61,8 +61,8 @@ class Nim(
     }
     override fun toString(): String {
         var s = ""
-        for(i in rows) s += "\n ${"I ".repeat(i)}${if (i == 0) "-" else ""}"
-        return "$s\n____________"
+        for(i in rows) s += "${"I ".repeat(i)}${if (i == 0) "-" else ""}\n"
+        return s.dropLast(1)
     }
 
     private fun minimax(): Int{
