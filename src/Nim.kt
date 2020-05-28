@@ -91,9 +91,11 @@ class Nim(
         }
         return res
     }
+
     override fun bestMove(): Move{
-        return possibleMoves().firstOrNull { Cache[this] == turn } ?:possibleMoves().random()
+        return possibleMoves().firstOrNull { Cache[this.play(it)] == turn } ?:possibleMoves().random()
     }
+
     override fun undoMove(): Nim {
         val nim = Nim(rows = rows,
                 turn = turn * -1,
@@ -121,12 +123,11 @@ class Nim(
         var bestValue = if (turn == 1) Int.MIN_VALUE else Int.MAX_VALUE
 
         for (move in moves){
-            var value = play(move).minimax()
+            val value = play(move).minimax()
 
             if (value > bestValue && turn == 1){
                 bestValue = value
                 bestMove = move
-
             }
             if (turn == -1 && value < bestValue)
                 bestValue = value
@@ -147,6 +148,5 @@ class Nim(
             return turn * Int.MAX_VALUE
         return turn * rows.sorted().fold(0) {acc, i -> (acc shl shiftLeft) + i }
     }
-
 
 }

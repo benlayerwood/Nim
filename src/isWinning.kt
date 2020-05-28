@@ -1,3 +1,3 @@
 fun isWinning(numbers: IntArray): Boolean {
-    return numbers.reduce{ i, j -> i xor j} != 0
+    return numbers.fold(0){ i, j -> i xor j} != 0
 }

@@ -25,8 +25,8 @@ class UserInterface() {
         "Select Opponent".printWithBoarders()
         println("1) Play against Nim [n]")
         println("2) Play against NimPerfect [np]")
-        println("[n|np]: ")
-        val nimWasChosen = readLine() == "0"
+        print("[n|np]: ")
+        val nimWasChosen = readLine() == "n"
         println("You have chosen ${if (nimWasChosen) "Nim" else "NimPerfect"}")
         return if (nimWasChosen) Nim(rows = chooseRows()) else NimPerfect(rows = chooseRows())
     }
@@ -37,7 +37,7 @@ class UserInterface() {
         println("Type in \"r\" to randomly generate the Rows")
         print("Row numbers: ")
         var s = readLine()
-        var list = arrayListOf<Int>()
+        val list = arrayListOf<Int>()
         if (s==null) s = ""
 
         if (s == "r"){
@@ -71,7 +71,7 @@ class UserInterface() {
             println("Type in your Move in the Format: row.number")
             println("For example: 2.1")
             print("Move (row.number): ")
-            var s = readLine()
+            val s = readLine()
             if (s != null && s.length == 3){
                 val row = s[0].toString().toInt() - 1
                 val number = s[2].toString().toInt()
@@ -97,7 +97,7 @@ class UserInterface() {
         print("[ENTER|q|u]: ")
         val s = readLine().orEmpty().toLowerCase()
         if (gameOver && s ==""){
-            UserInterface()
+            UserInterface().play()
             return true
         }
         return when (s){
