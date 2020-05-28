@@ -28,13 +28,15 @@ class UserInterface {
         println("2) Play against NimPerfect [np]")
         print("[n|np]: ")
         val nimWasChosen = readLine() == "n"
-        "You have chosen ${if (nimWasChosen) "Nim" else "NimPerfect"}".printWithBoarders()
+        println("\nYou have chosen ${if (nimWasChosen) "Nim" else "NimPerfect"}!")
         return if (nimWasChosen) Nim(rows = chooseRows()) else NimPerfect(rows = chooseRows())
     }
     private fun chooseRows(): IntArray{
-        println("Select preferred numbers in format \"number1-number2-...\" (example: 1-3-5-7)")
+        "Select Rows".printWithBoarders()
+        println("Select preferred numbers in format \"number1-number2-...\" (example: 1-3-5)")
         println("Type in \"r\" to randomly generate the Rows")
-        print("[Row numbers|r]: ")
+        println("Type in \"ENTER\" to use default Rows (1-3-5-7)")
+        print("[Row numbers|r|ENTER]: ")
         var s = readLine()
         val list = arrayListOf<Int>()
         if (s==null) s = ""
@@ -66,32 +68,35 @@ class UserInterface {
         println("\nMake move manually (0) or let the computer make the move(1)")
         print("[0|1]: ")
         val isManually = readLine() == "0"
+
         if (isManually){
-            println("Type in your Move in the Format: row.number")
-            println("For example: 2.1")
-            print("Move (row.number): ")
-            val s = readLine().orEmpty()
-
-            if (s.length == 3 && s[0].isDigit() && s[2].isDigit()
-                    && s[1] == '.'){
-                val row = s[0].toString().toInt() - 1
-                val number = s[2].toString().toInt()
-                val move = Move(row, number)
-                try {
-                    nimGame = nimGame.play(move)
-                }catch (a: ArrayIndexOutOfBoundsException){
-                    "ERROR: Your input was incorrect! Try again!".printWithBoarders()
-                    makeMove()
-                }
-            }else{
-                "ERROR: Your input was incorrect! Try again!".printWithBoarders()
-                makeMove()
-            }
-
+            manualMove()
         }
         else{
             println("The computer is making the a move...")
             nimGame = nimGame.play(nimGame.bestMove())
+        }
+    }
+
+    private fun manualMove(){
+        println("Type in your Move in the Format: row.number (example: 2.1)")
+        print("Move [row.number]: ")
+        val s = readLine().orEmpty()
+
+        if (s.length == 3 && s[0].isDigit() && s[2].isDigit()
+                && s[1] == '.'){
+            val row = s[0].toString().toInt() - 1
+            val number = s[2].toString().toInt()
+            val move = Move(row, number)
+            try {
+                nimGame = nimGame.play(move)
+            }catch (a: ArrayIndexOutOfBoundsException){
+                "ERROR: Your input was incorrect! Try again!".printWithBoarders()
+                manualMove()
+            }
+        }else{
+            "ERROR: Your input was incorrect! Try again!".printWithBoarders()
+            manualMove()
         }
     }
 
