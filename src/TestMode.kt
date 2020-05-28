@@ -15,46 +15,44 @@ class TestMode(var nimPerfect: NimPerfect = NimPerfect(),
 
     fun playGames(n: Int = 1){
         if (n > 40) return
-        println("Game $n:")
-        val nimStarts = Random.nextBoolean()
-        println("${if (nimStarts) "Nim" else "NimPerfect"} starts!")
+        println("\nGame $n:")
+        var nimsTurn = Random.nextBoolean()
+        println("${if (nimsTurn) "Nim" else "NimPerfect"} starts!")
         var randRows = randomRows()
 
         val tm = TestMode(
             NimPerfect(rows = randRows,
-                    turn = if (nimStarts) -1 else 1),
+                    turn = if (nimsTurn) -1 else 1),
             Nim(rows = randRows,
-                    turn = if (nimStarts) 1 else -1))
+                    turn = if (nimsTurn) 1 else -1))
 
         print("Rows:")
         tm.nim.rows.forEach { row -> print("$row ") }
         println()
-        val nimShouldWin = !isWinning(tm.nim.rows)
+
+        val nimShouldWin = isWinning(randRows)
+
         if (nimShouldWin) println("Nim should win!")
             else println("NimPerfect should win!")
         var nimHasWone = nimShouldWin
 
         while (true){
-        val move = if (nimStarts) tm.nim.bestMove()
+        val move = if (nimsTurn) tm.nim.bestMove()
             else tm.nimPerfect.bestMove()
 
+            //println("${if (nimsTurn) "Nim" else "NimPerfect"}Move: $move")
+
             tm.nim =  tm.nim.play(move)
+            tm.nimPerfect = tm.nimPerfect.play(move)
+
             if (tm.nim.isGameOver()){
-                nimHasWone = true
-                println("Nim has wone!")
-                println("Is Valid: ${nimHasWone == nimShouldWin}\n")
+                if (nimsTurn) println("Nim has won!")
+                else println("NimPerfect has won!")
                 playGames(n + 1)
                 break
             }
 
-            tm.nimPerfect = tm.nimPerfect.play(move)
-            if (tm.nimPerfect.isGameOver()){
-                 nimHasWone = false
-                println("Nim has wone!")
-                println("Is Valid: ${nimHasWone == nimShouldWin}\n")
-                playGames(n + 1)
-                break
-            }
+            nimsTurn = !nimsTurn
         }
 
     }

@@ -1,6 +1,9 @@
 fun main() {
     val ui = UserInterface()
     ui.start()
+    //val t = TestMode()
+    //t.playGames(39)
+
 }
 
 /*
