@@ -689,7 +689,7 @@
     NimPerfect starts!
     Rows: 3 4 4 5 6 
     NimPerfect should win!
-    Nim has won!
+    NimPerfect has won!
     
     Game 24:
     Nim starts!
