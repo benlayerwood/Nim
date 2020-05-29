@@ -1,3 +1,9 @@
+/*
+Benjamin Schichhtolz
+Matrikelnummer: 5097555
+Studiengang: Informatik
+*/
+
 import kotlin.math.ceil
 import kotlin.math.log2
 import kotlin.math.max
