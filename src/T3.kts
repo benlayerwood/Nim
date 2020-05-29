@@ -1,7 +1,6 @@
 import kotlin.math.ceil
 import kotlin.math.log2
 import kotlin.math.max
-import kotlin.math.max
 import kotlin.random.Random
 
 data class Move(val row: Int, val number: Int)interface NimGame {
@@ -224,7 +223,6 @@ class TestMode {
         return numbers.fold(0){ i, j -> i xor j} != 0
     }
 }
-
 class UserInterface {
     private val testMode: Boolean = askIfStartTestmode()
     private var nimGame: NimGame = if (testMode) Nim() else chooseOpponent()
@@ -260,7 +258,7 @@ class UserInterface {
         "Select Rows".printWithBoarders()
         println("Select preferred numbers in format \"number1-number2-...\" (example: 1-3-5)")
         println("Type in \"r\" to randomly generate the Rows")
-        println("Type in \"ENTER\" to use default Rows (1-3-5-7)")
+        println("Type in \"ENTER\" to use default Rows (3-4-5)")
         print("[Row numbers|r|ENTER]: ")
         var s = readLine()
         val list = arrayListOf<Int>()
@@ -275,7 +273,7 @@ class UserInterface {
         }
         s = s.filter { i -> i.isDigit() }
         s.forEach { c -> list.add(Integer.parseInt(c.toString())) }
-        return if (list.isEmpty()) intArrayOf(1, 3, 5, 7) else list.toIntArray()
+        return if (list.isEmpty()) intArrayOf(3, 4, 5) else list.toIntArray()
     }
     private fun showBoard(){
         nimGame.toString().printWithBoarders()
