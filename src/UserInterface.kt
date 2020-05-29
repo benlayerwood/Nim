@@ -105,7 +105,7 @@ class UserInterface {
             else println("\nContinue: ENTER")
         println("End Game: \"q\" or \"e\"")
         println("Undo last move: \"u\"")
-        print("[ENTER|q|u]: ")
+        print("[ENTER|q|e|u]: ")
         val s = readLine().orEmpty().toLowerCase()
         if (gameOver && s ==""){
             UserInterface().start()
