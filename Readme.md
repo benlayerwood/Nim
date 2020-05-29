@@ -7,7 +7,7 @@
 * Beim Starten des Spiels kann der Spieler zwischen dem Testmodus (<b>t</b>: test mode) und dem Spielmodus (<b>p</b>: play) auswählen
 
 ## Test-Modus
-*   Beim Testmodus werden in 40 Spielen mit zufällig generierten Kombinationen von   Spielsteinen Objekte der Klassen Nim gegen Objekte der Klasse NimPerfect gegeneinander ausgespielt
+*   Beim Testmodus werden in 40 Spielen mit zufällig generierten Kombinationen von Spielsteinen Objekte der Klassen Nim gegen Objekte der Klasse NimPerfect gegeneinander ausgespielt
 
 * Die Spiele geben Information über den beginnenden Spieler, die Konstellation der Spielsteine, den erwarteten Gewinner und den tatsächlichen Gewinner
 
@@ -89,7 +89,7 @@
     Continue: ENTER
     End Game: "q" or "e"
     Undo last move: "u"
-    [ENTER|q|u]: 
+    [ENTER|q|e|u]: 
     
     ---------------------------
     I 
@@ -112,7 +112,7 @@
     Continue: ENTER
     End Game: "q" or "e"
     Undo last move: "u"
-    [ENTER|q|u]: 
+    [ENTER|q|e|u]: 
     
     ------------------------
     I 
@@ -136,7 +136,7 @@
     Continue: ENTER
     End Game: "q" or "e"
     Undo last move: "u"
-    [ENTER|q|u]: u
+    [ENTER|q|e|u]: u
     
     ------------------------
     I 
@@ -159,7 +159,7 @@
     Continue: ENTER
     End Game: "q" or "e"
     Undo last move: "u"
-    [ENTER|q|u]: 
+    [ENTER|q|e|u]: 
     
     ----------------------
     I 
@@ -182,7 +182,7 @@
     Continue: ENTER
     End Game: "q" or "e"
     Undo last move: "u"
-    [ENTER|q|u]: 
+    [ENTER|q|e|u]: 
     
     ----------------
     I 
@@ -205,7 +205,7 @@
     Continue: ENTER
     End Game: "q" or "e"
     Undo last move: "u"
-    [ENTER|q|u]: 
+    [ENTER|q|e|u]: 
     
     ------------
     I 
@@ -228,7 +228,7 @@
     Continue: ENTER
     End Game: "q" or "e"
     Undo last move: "u"
-    [ENTER|q|u]: 
+    [ENTER|q|e|u]: 
     
     ---------
     I 
@@ -252,7 +252,7 @@
     Continue: ENTER
     End Game: "q" or "e"
     Undo last move: "u"
-    [ENTER|q|u]: 
+    [ENTER|q|e|u]: 
     
     --------
     -
@@ -276,7 +276,7 @@
     Return to main menu: ENTER
     End Game: "q" or "e"
     Undo last move: "u"
-    [ENTER|q|u]: q
+    [ENTER|q|e|u]: q
 </details>
 
 <details>
@@ -328,7 +328,7 @@
     Continue: ENTER
     End Game: "q" or "e"
     Undo last move: "u"
-    [ENTER|q|u]: 
+    [ENTER|q|e|u]: 
     
     -----------------------
     I I 
@@ -352,7 +352,7 @@
     Continue: ENTER
     End Game: "q" or "e"
     Undo last move: "u"
-    [ENTER|q|u]: 
+    [ENTER|q|e|u]: 
     
     ------------------
     I I 
@@ -375,7 +375,7 @@
     Continue: ENTER
     End Game: "q" or "e"
     Undo last move: "u"
-    [ENTER|q|u]: u
+    [ENTER|q|e|u]: u
     
     ------------------
     I I 
@@ -398,7 +398,7 @@
     Continue: ENTER
     End Game: "q" or "e"
     Undo last move: "u"
-    [ENTER|q|u]: 
+    [ENTER|q|e|u]: 
     
     ----------------
     I 
@@ -421,7 +421,7 @@
     Continue: ENTER
     End Game: "q" or "e"
     Undo last move: "u"
-    [ENTER|q|u]: 
+    [ENTER|q|e|u]: 
     
     ---------------
     -
@@ -444,7 +444,7 @@
     Continue: ENTER
     End Game: "q" or "e"
     Undo last move: "u"
-    [ENTER|q|u]: 
+    [ENTER|q|e|u]: 
     
     -------------
     -
@@ -468,7 +468,7 @@
     Continue: ENTER
     End Game: "q" or "e"
     Undo last move: "u"
-    [ENTER|q|u]: 
+    [ENTER|q|e|u]: 
     
     -----------
     -
@@ -491,7 +491,7 @@
     Continue: ENTER
     End Game: "q" or "e"
     Undo last move: "u"
-    [ENTER|q|u]: 
+    [ENTER|q|e|u]: 
     
     ---------
     -
@@ -514,7 +514,7 @@
     Continue: ENTER
     End Game: "q" or "e"
     Undo last move: "u"
-    [ENTER|q|u]: 
+    [ENTER|q|e|u]: 
     
     --------
     -
@@ -539,7 +539,7 @@
     Return to main menu: ENTER
     End Game: "q" or "e"
     Undo last move: "u"
-    [ENTER|q|u]: q
+    [ENTER|q|e|u]: q
 </details>
 
 <details>
