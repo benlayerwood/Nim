@@ -205,10 +205,15 @@ class TestMode {
             randRows.forEach { row -> print("$row ") }
             println()
         var nimBoard = Nim(randRows)
+        val nimShouldWin: Boolean
 
-        val nimShouldWin = isWinning(nimBoard.rows) && nimTurn
-            if (nimShouldWin) print("Nim") else print("NimPerfect")
-            println(" should win!")
+        val isWinningPos = isWinning(nimBoard.rows)
+
+        nimShouldWin = isWinningPos && nimTurn || !isWinningPos && !nimTurn
+
+        if (nimShouldWin) print("Nim")
+        if (!nimShouldWin) print("NimPerfect")
+        println(" should win!")
 
         while (true){
             val move = if (nimTurn) nimBoard.bestMove()
@@ -222,6 +227,12 @@ class TestMode {
             }
             nimTurn = nimTurn.not()
         }
+
+        if (nimShouldWin && !nimTurn || !nimShouldWin  && nimTurn){
+            println("Error: Anticipated Winner has not won!")
+            return
+        }
+
         playGames(n + 1)
     }
 
